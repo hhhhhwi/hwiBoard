@@ -4,13 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,9 +17,9 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class) // AuditingFields 에 구현
 @Entity
-public class Article {
+public class Article extends AuditingFields{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql은 IDENTITY 방식으로 생성
     private Long id;
@@ -46,21 +40,8 @@ public class Article {
     @ToString.Exclude
     private final Set<ArticleComment> articleComents = new LinkedHashSet<>();
 
-    @CreatedDate // JPA가 자동으로 세팅
-    @Column(nullable = false)
-    private LocalDateTime createdAt; // 생성일자
-
-    @CreatedBy // '누구'에 대한 설정 -> JpaConfig
-    @Column(nullable = false, length = 100)
-    private String createdBy; // 생성자
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime modifiedAt; // 수정일자
-
-    @LastModifiedBy
-    @Column(nullable = false, length = 100)
-    private String modifiedBy; // 수정자
+    //@Embedded // 클래스 하나를 만들어서 해당 클래스를 필드로 추가하는 방식
+    //@MappedSuperclass 로 구현
 
     protected Article() {
 
