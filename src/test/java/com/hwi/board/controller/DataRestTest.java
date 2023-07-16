@@ -1,5 +1,6 @@
 package com.hwi.board.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@WebMvcTest // WebMvc 테스트는 슬라이스 테스트이기 때문에 컨트롤러 외의 Bean들을 로드하지 않는다. 즉, DataRest의 autoCofiguration을 읽지 않음.
+@Disabled("Spring Data REST 통합테스트는 불필요하므로 제외시킴")
 @DisplayName("api 테스트")
 @Transactional // 테스트에서 기본 트랜잭션 동작은 rollback. DB에 영향을 주는 테스트이기 때문에 설정
 @AutoConfigureMockMvc
