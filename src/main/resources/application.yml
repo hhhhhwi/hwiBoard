@@ -25,3 +25,5 @@ spring:
   data.rest:
     base-path: /api
     detection-strategy: annotated # 프로젝트의 repository 중 rest api에 노출할 범위
+  thymeleaf3:
+    decoupled-logic: true
