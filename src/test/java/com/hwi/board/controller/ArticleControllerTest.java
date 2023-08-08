@@ -1,10 +1,12 @@
 package com.hwi.board.controller;
 
+import com.hwi.board.config.SecurityConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -12,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Disabled("개발 중")
 @DisplayName("Article 관련 View Controller 테스트")
+@Import(SecurityConfig.class)
 @WebMvcTest(ArticleController.class)
 class ArticleControllerTest {
     private final MockMvc mockMvc;
@@ -30,7 +32,7 @@ class ArticleControllerTest {
         // When
         mockMvc.perform(get("/articles"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/index")) // 호출될 view의 위치와 이름을 확인
                 .andExpect(model().attributeExists("articles")); // 응답 시 articles 라는 데이터가 있는 지 확인
     }
@@ -43,12 +45,13 @@ class ArticleControllerTest {
         // When
         mockMvc.perform(get("/articles/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/detail"))
                 .andExpect(model().attributeExists("article"))
                 .andExpect(model().attributeExists("articleComments"));
     }
 
+    @Disabled("개발 중")
     @DisplayName("Article 검색 전용 페이지 - 정상호출")
     @Test
     public void givenNothing_whenRequestingArticleSearchView_thenReturnsArticleSearchView() throws Exception {
@@ -57,10 +60,11 @@ class ArticleControllerTest {
         // When
         mockMvc.perform(get("/articles/search"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/search"));
     }
 
+    @Disabled("개발 중")
     @DisplayName("Article hashtag 페이지 - 정상호출")
     @Test
     public void givenNothing_whenRequestingArticleHashtagSearchView_thenReturnsArticleHashtagSearchView() throws Exception {
@@ -69,7 +73,7 @@ class ArticleControllerTest {
         // When
         mockMvc.perform(get("/articles/search-hashtag"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.TEXT_HTML))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/search-hashtag"));
     }
 }
